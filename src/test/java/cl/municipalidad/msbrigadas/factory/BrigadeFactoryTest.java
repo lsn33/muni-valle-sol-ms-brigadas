@@ -1,6 +1,6 @@
 package cl.municipalidad.msbrigadas.factory;
 
-import cl.municipalidad.msbrigadas.model.Brigada;
+import cl.municipalidad.msbrigadas.model.Brigade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 /**
- * Pruebas unitarias para {@link BrigadaFactory}.
+ * Pruebas unitarias para {@link BrigadeFactory}.
  *
  * <p>Verifica que la fábrica cree brigadas con el estado correcto
  * según el tipo, siguiendo el patrón Factory Method.</p>
@@ -17,19 +17,19 @@ import static org.assertj.core.api.Assertions.*;
  * @version 1.0
  */
 @DisplayName("BrigadaFactory - Pruebas Unitarias")
-class BrigadaFactoryTest {
+class BrigadeFactoryTest {
 
-    private BrigadaFactory brigadaFactory;
+    private BrigadeFactory brigadaFactory;
 
     @BeforeEach
     void setUp() {
-        brigadaFactory = new BrigadaFactory();
+        brigadaFactory = new BrigadeFactory();
     }
 
     @Test
     @DisplayName("crear INCENDIO - debería crear brigada con estado DISPONIBLE")
     void crear_tipoIncendio_estadoDisponible() {
-        Brigada brigada = brigadaFactory.crear(
+        Brigade brigada = brigadaFactory.crear(
             "Brigada Norte", "INCENDIO", "jefe@municipalidad.cl", -33.45, -70.65
         );
 
@@ -43,7 +43,7 @@ class BrigadaFactoryTest {
     @Test
     @DisplayName("crear RESCATE - debería crear brigada con estado DISPONIBLE")
     void crear_tipoRescate_estadoDisponible() {
-        Brigada brigada = brigadaFactory.crear(
+        Brigade brigada = brigadaFactory.crear(
             "Brigada Rescate", "RESCATE", "rescate@municipalidad.cl", -33.45, -70.65
         );
 
@@ -54,7 +54,7 @@ class BrigadaFactoryTest {
     @Test
     @DisplayName("crear MEDICA - debería crear brigada con estado DISPONIBLE")
     void crear_tipoMedica_estadoDisponible() {
-        Brigada brigada = brigadaFactory.crear(
+        Brigade brigada = brigadaFactory.crear(
             "Brigada Médica", "MEDICA", "medica@municipalidad.cl", null, null
         );
 
@@ -67,7 +67,7 @@ class BrigadaFactoryTest {
     @Test
     @DisplayName("crear - debería normalizar nombre y email (trim y lowercase)")
     void crear_normalizaDatos() {
-        Brigada brigada = brigadaFactory.crear(
+        Brigade brigada = brigadaFactory.crear(
             "  Brigada Sur  ", "INCENDIO", "  JEFE@municipalidad.cl  ", -33.45, -70.65
         );
 

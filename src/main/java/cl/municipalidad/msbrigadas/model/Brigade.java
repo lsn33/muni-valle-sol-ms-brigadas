@@ -11,17 +11,17 @@ import java.time.LocalDateTime;
  * operativos de cada brigada: nombre, estado, ubicación GPS y responsable.</p>
  *
  * <p><b>Nota:</b> Esta entidad no se expone directamente al frontend.
- * Se convierte a {@link cl.municipalidad.msbrigadas.dto.BrigadaDTO} antes
+ * Se convierte a {@link cl.municipalidad.msbrigadas.dto.BrigadeDTO} antes
  * de cualquier respuesta HTTP.</p>
  *
  * @author Municipalidad Valle del Sol
  * @version 1.0
- * @see cl.municipalidad.msbrigadas.dto.BrigadaDTO
+ * @see cl.municipalidad.msbrigadas.dto.BrigadeDTO
  */
 @Data
 @Entity
 @Table(name = "brigada")
-public class Brigada {
+public class Brigade {
 
     /**
      * Identificador único generado automáticamente por la base de datos (BIGSERIAL).

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  *
  * <p>Implementa el patrón <b>Record</b> de Java para garantizar inmutabilidad.
  * Nunca expone datos sensibles. Es el único objeto que el controlador
- * devuelve al cliente, nunca la entidad {@link cl.municipalidad.msbrigadas.model.Brigada}.</p>
+ * devuelve al cliente, nunca la entidad {@link cl.municipalidad.msbrigadas.model.Brigade}.</p>
  *
  * <p><b>Patrón aplicado:</b> Data Transfer Object (DTO) con Java Record.</p>
  *
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
  * @author Municipalidad Valle del Sol
  * @version 1.0
  */
-public record BrigadaDTO(
+public record BrigadeDTO(
     Long id,
     String nombre,
     String estado,

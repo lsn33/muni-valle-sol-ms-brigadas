@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
  * @author Municipalidad Valle del Sol
  * @version 1.0
  */
-public record UpdateUbicacionRequest(
+public record UpdateLocationRequest(
 
     @NotNull(message = "La latitud es obligatoria")
     @DecimalMin(value = "-90.0", message = "La latitud debe ser mayor o igual a -90.0")

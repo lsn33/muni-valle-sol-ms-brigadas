@@ -1,10 +1,10 @@
 package cl.municipalidad.msbrigadas.factory;
 
-import cl.municipalidad.msbrigadas.model.Brigada;
+import cl.municipalidad.msbrigadas.model.Brigade;
 import org.springframework.stereotype.Component;
 
 /**
- * Fábrica de objetos {@link Brigada} usando el patrón Factory Method.
+ * Fábrica de objetos {@link Brigade} usando el patrón Factory Method.
  *
  * <p>Centraliza la lógica de creación de brigadas, aplicando reglas de negocio
  * automáticamente según el tipo: estado inicial y descripción operativa.
@@ -17,11 +17,11 @@ import org.springframework.stereotype.Component;
  *
  * @author Municipalidad Valle del Sol
  * @version 1.0
- * @see BrigadaType
- * @see Brigada
+ * @see BrigadeType
+ * @see Brigade
  */
 @Component
-public class BrigadaFactory {
+public class BrigadeFactory {
 
     /**
      * Crea una nueva brigada con estado y configuración inicial según su tipo.
@@ -38,21 +38,21 @@ public class BrigadaFactory {
      * @param emailResponsable Email del jefe de brigada.
      * @param latitud          Latitud de la ubicación inicial (puede ser null).
      * @param longitud         Longitud de la ubicación inicial (puede ser null).
-     * @return {@link Brigada} configurada y lista para persistir.
+     * @return {@link Brigade} configurada y lista para persistir.
      * @throws IllegalArgumentException si el tipo no es reconocido.
      */
-    public Brigada crear(String nombre, String tipo,
+    public Brigade crear(String nombre, String tipo,
                          String emailResponsable,
                          Double latitud, Double longitud) {
 
-        Brigada brigada = new Brigada();
+        Brigade brigada = new Brigade();
         brigada.setNombre(nombre.trim());
         brigada.setTipo(tipo.toUpperCase().trim());
         brigada.setEmailResponsable(emailResponsable.trim().toLowerCase());
         brigada.setLatitud(latitud);
         brigada.setLongitud(longitud);
 
-        switch (BrigadaType.valueOf(tipo.toUpperCase().trim())) {
+        switch (BrigadeType.valueOf(tipo.toUpperCase().trim())) {
             case INCENDIO -> {
                 brigada.setEstado("DISPONIBLE");
             }

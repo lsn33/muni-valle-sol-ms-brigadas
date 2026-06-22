@@ -1,10 +1,10 @@
 package cl.municipalidad.msbrigadas.controller;
 
-import cl.municipalidad.msbrigadas.dto.BrigadaDTO;
-import cl.municipalidad.msbrigadas.dto.CreateBrigadaRequest;
-import cl.municipalidad.msbrigadas.dto.UpdateEstadoRequest;
-import cl.municipalidad.msbrigadas.dto.UpdateUbicacionRequest;
-import cl.municipalidad.msbrigadas.service.BrigadaService;
+import cl.municipalidad.msbrigadas.dto.BrigadeDTO;
+import cl.municipalidad.msbrigadas.dto.CreateBrigadeRequest;
+import cl.municipalidad.msbrigadas.dto.UpdateStatusRequest;
+import cl.municipalidad.msbrigadas.dto.UpdateLocationRequest;
+import cl.municipalidad.msbrigadas.service.BrigadeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.List;
  *
  * <p>Expone los endpoints CRUD de brigadas y operaciones específicas como
  * actualización de estado y ubicación GPS. Delega toda la lógica al
- * {@link BrigadaService} y usa {@code @Valid} para validar los DTOs de
+ * {@link BrigadeService} y usa {@code @Valid} para validar los DTOs de
  * entrada automáticamente antes de procesarlos.</p>
  *
  * <p>Todos los endpoints son públicos, configurados en
@@ -28,14 +28,14 @@ import java.util.List;
  *
  * @author Municipalidad Valle del Sol
  * @version 1.0
- * @see BrigadaService
+ * @see BrigadeService
  */
 @RestController
 @RequestMapping("/api/brigadas")
 @RequiredArgsConstructor
-public class BrigadaController {
+public class BrigadeController {
 
-    private final BrigadaService brigadaService;
+    private final BrigadeService brigadaService;
 
     /**
      * Registra una nueva brigada en el sistema.
@@ -54,11 +54,11 @@ public class BrigadaController {
      * }</pre></p>
      *
      * @param request DTO validado con los datos de la nueva brigada.
-     * @return {@link BrigadaDTO} con los datos de la brigada creada y HTTP 201.
+     * @return {@link BrigadeDTO} con los datos de la brigada creada y HTTP 201.
      *         HTTP 400 si algún campo no pasa la validación.
      */
     @PostMapping
-    public ResponseEntity<BrigadaDTO> crear(@Valid @RequestBody CreateBrigadaRequest request) {
+    public ResponseEntity<BrigadeDTO> crear(@Valid @RequestBody CreateBrigadeRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(brigadaService.crear(request));
     }
 
@@ -67,10 +67,10 @@ public class BrigadaController {
      *
      * <p><b>GET</b> {@code /api/brigadas}</p>
      *
-     * @return HTTP 200 con lista de {@link BrigadaDTO}. Lista vacía si no hay brigadas.
+     * @return HTTP 200 con lista de {@link BrigadeDTO}. Lista vacía si no hay brigadas.
      */
     @GetMapping
-    public ResponseEntity<List<BrigadaDTO>> listarTodas() {
+    public ResponseEntity<List<BrigadeDTO>> listarTodas() {
         return ResponseEntity.ok(brigadaService.listarTodas());
     }
 
@@ -79,10 +79,10 @@ public class BrigadaController {
      *
      * <p><b>GET</b> {@code /api/brigadas/disponibles}</p>
      *
-     * @return HTTP 200 con lista de {@link BrigadaDTO} disponibles.
+     * @return HTTP 200 con lista de {@link BrigadeDTO} disponibles.
      */
     @GetMapping("/disponibles")
-    public ResponseEntity<List<BrigadaDTO>> listarDisponibles() {
+    public ResponseEntity<List<BrigadeDTO>> listarDisponibles() {
         return ResponseEntity.ok(brigadaService.listarDisponibles());
     }
 
@@ -92,10 +92,10 @@ public class BrigadaController {
      * <p><b>GET</b> {@code /api/brigadas/tipo/{tipo}}</p>
      *
      * @param tipo Tipo de brigada a filtrar (INCENDIO, RESCATE, MEDICA).
-     * @return HTTP 200 con lista de {@link BrigadaDTO} del tipo indicado.
+     * @return HTTP 200 con lista de {@link BrigadeDTO} del tipo indicado.
      */
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<BrigadaDTO>> listarPorTipo(@PathVariable String tipo) {
+    public ResponseEntity<List<BrigadeDTO>> listarPorTipo(@PathVariable String tipo) {
         return ResponseEntity.ok(brigadaService.listarPorTipo(tipo));
     }
 
@@ -105,11 +105,11 @@ public class BrigadaController {
      * <p><b>GET</b> {@code /api/brigadas/{id}}</p>
      *
      * @param id Identificador de la brigada.
-     * @return HTTP 200 con {@link BrigadaDTO} si existe.
+     * @return HTTP 200 con {@link BrigadeDTO} si existe.
      *         HTTP 404 si no se encuentra.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<BrigadaDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<BrigadeDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(brigadaService.buscarPorId(id));
     }
 
@@ -125,14 +125,14 @@ public class BrigadaController {
      *
      * @param id      Identificador de la brigada.
      * @param request DTO validado con el nuevo estado.
-     * @return HTTP 200 con {@link BrigadaDTO} actualizado.
+     * @return HTTP 200 con {@link BrigadeDTO} actualizado.
      *         HTTP 400 si el estado no es válido.
      *         HTTP 404 si la brigada no existe.
      */
     @PutMapping("/{id}/estado")
-    public ResponseEntity<BrigadaDTO> actualizarEstado(
+    public ResponseEntity<BrigadeDTO> actualizarEstado(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateEstadoRequest request) {
+            @Valid @RequestBody UpdateStatusRequest request) {
         return ResponseEntity.ok(brigadaService.actualizarEstado(id, request));
     }
 
@@ -148,14 +148,14 @@ public class BrigadaController {
      *
      * @param id      Identificador de la brigada.
      * @param request DTO validado con las nuevas coordenadas.
-     * @return HTTP 200 con {@link BrigadaDTO} actualizado.
+     * @return HTTP 200 con {@link BrigadeDTO} actualizado.
      *         HTTP 400 si las coordenadas están fuera de rango.
      *         HTTP 404 si la brigada no existe.
      */
     @PutMapping("/{id}/ubicacion")
-    public ResponseEntity<BrigadaDTO> actualizarUbicacion(
+    public ResponseEntity<BrigadeDTO> actualizarUbicacion(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateUbicacionRequest request) {
+            @Valid @RequestBody UpdateLocationRequest request) {
         return ResponseEntity.ok(brigadaService.actualizarUbicacion(id, request));
     }
 

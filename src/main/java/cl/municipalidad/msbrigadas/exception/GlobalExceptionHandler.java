@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     /**
      * Maneja argumentos ilegales, como tipos de brigada no reconocidos.
      *
-     * <p>Se activa cuando {@link cl.municipalidad.msbrigadas.factory.BrigadaFactory}
+     * <p>Se activa cuando {@link cl.municipalidad.msbrigadas.factory.BrigadeFactory}
      * recibe un tipo inválido o el servicio recibe datos que violan reglas de negocio.</p>
      *
      * @param ex Excepción con el mensaje de error.

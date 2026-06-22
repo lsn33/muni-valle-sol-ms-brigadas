@@ -1,12 +1,12 @@
 package cl.municipalidad.msbrigadas.service;
 
-import cl.municipalidad.msbrigadas.dto.BrigadaDTO;
-import cl.municipalidad.msbrigadas.dto.CreateBrigadaRequest;
-import cl.municipalidad.msbrigadas.dto.UpdateEstadoRequest;
-import cl.municipalidad.msbrigadas.dto.UpdateUbicacionRequest;
-import cl.municipalidad.msbrigadas.factory.BrigadaFactory;
-import cl.municipalidad.msbrigadas.model.Brigada;
-import cl.municipalidad.msbrigadas.repository.BrigadaRepository;
+import cl.municipalidad.msbrigadas.dto.BrigadeDTO;
+import cl.municipalidad.msbrigadas.dto.CreateBrigadeRequest;
+import cl.municipalidad.msbrigadas.dto.UpdateStatusRequest;
+import cl.municipalidad.msbrigadas.dto.UpdateLocationRequest;
+import cl.municipalidad.msbrigadas.factory.BrigadeFactory;
+import cl.municipalidad.msbrigadas.model.Brigade;
+import cl.municipalidad.msbrigadas.repository.BrigadeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Pruebas unitarias para {@link BrigadaService}.
+ * Pruebas unitarias para {@link BrigadeService}.
  *
  * <p>Verifica la lógica de negocio de forma aislada, usando Mockito para
  * simular el comportamiento del repositorio y la fábrica sin tocar la BD.</p>
@@ -34,23 +34,23 @@ import static org.mockito.Mockito.*;
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BrigadaService - Pruebas Unitarias")
-class BrigadaServiceTest {
+class BrigadeServiceTest {
 
     @Mock
-    private BrigadaRepository brigadaRepository;
+    private BrigadeRepository brigadaRepository;
 
     @Mock
-    private BrigadaFactory brigadaFactory;
+    private BrigadeFactory brigadaFactory;
 
     @InjectMocks
-    private BrigadaService brigadaService;
+    private BrigadeService brigadaService;
 
-    private Brigada brigadaEjemplo;
-    private CreateBrigadaRequest createRequest;
+    private Brigade brigadaEjemplo;
+    private CreateBrigadeRequest createRequest;
 
     @BeforeEach
     void setUp() {
-        brigadaEjemplo = new Brigada();
+        brigadaEjemplo = new Brigade();
         brigadaEjemplo.setId(1L);
         brigadaEjemplo.setNombre("Brigada Norte");
         brigadaEjemplo.setEstado("DISPONIBLE");
@@ -60,7 +60,7 @@ class BrigadaServiceTest {
         brigadaEjemplo.setEmailResponsable("jefe@municipalidad.cl");
         brigadaEjemplo.setFechaCreacion(LocalDateTime.now());
 
-        createRequest = new CreateBrigadaRequest(
+        createRequest = new CreateBrigadeRequest(
             "Brigada Norte", "INCENDIO", "jefe@municipalidad.cl", -33.45, -70.65
         );
     }
@@ -69,15 +69,15 @@ class BrigadaServiceTest {
     @DisplayName("crear - debería crear brigada correctamente")
     void crear_exitoso() {
         when(brigadaFactory.crear(any(), any(), any(), any(), any())).thenReturn(brigadaEjemplo);
-        when(brigadaRepository.save(any(Brigada.class))).thenReturn(brigadaEjemplo);
+        when(brigadaRepository.save(any(Brigade.class))).thenReturn(brigadaEjemplo);
 
-        BrigadaDTO resultado = brigadaService.crear(createRequest);
+        BrigadeDTO resultado = brigadaService.crear(createRequest);
 
         assertThat(resultado).isNotNull();
         assertThat(resultado.nombre()).isEqualTo("Brigada Norte");
         assertThat(resultado.estado()).isEqualTo("DISPONIBLE");
         assertThat(resultado.tipo()).isEqualTo("INCENDIO");
-        verify(brigadaRepository, times(1)).save(any(Brigada.class));
+        verify(brigadaRepository, times(1)).save(any(Brigade.class));
     }
 
     @Test
@@ -85,7 +85,7 @@ class BrigadaServiceTest {
     void listarTodas_retornaLista() {
         when(brigadaRepository.findAll()).thenReturn(List.of(brigadaEjemplo));
 
-        List<BrigadaDTO> resultado = brigadaService.listarTodas();
+        List<BrigadeDTO> resultado = brigadaService.listarTodas();
 
         assertThat(resultado).hasSize(1);
         assertThat(resultado.get(0).nombre()).isEqualTo("Brigada Norte");
@@ -96,7 +96,7 @@ class BrigadaServiceTest {
     void listarDisponibles_retornaSoloDisponibles() {
         when(brigadaRepository.findByEstado("DISPONIBLE")).thenReturn(List.of(brigadaEjemplo));
 
-        List<BrigadaDTO> resultado = brigadaService.listarDisponibles();
+        List<BrigadeDTO> resultado = brigadaService.listarDisponibles();
 
         assertThat(resultado).hasSize(1);
         assertThat(resultado.get(0).estado()).isEqualTo("DISPONIBLE");
@@ -107,7 +107,7 @@ class BrigadaServiceTest {
     void buscarPorId_existe_retornaBrigada() {
         when(brigadaRepository.findById(1L)).thenReturn(Optional.of(brigadaEjemplo));
 
-        BrigadaDTO resultado = brigadaService.buscarPorId(1L);
+        BrigadeDTO resultado = brigadaService.buscarPorId(1L);
 
         assertThat(resultado.id()).isEqualTo(1L);
         assertThat(resultado.nombre()).isEqualTo("Brigada Norte");
@@ -126,14 +126,14 @@ class BrigadaServiceTest {
     @Test
     @DisplayName("actualizarEstado - debería actualizar estado correctamente")
     void actualizarEstado_exitoso() {
-        UpdateEstadoRequest request = new UpdateEstadoRequest("EN_CAMINO");
+        UpdateStatusRequest request = new UpdateStatusRequest("EN_CAMINO");
         when(brigadaRepository.findById(1L)).thenReturn(Optional.of(brigadaEjemplo));
-        when(brigadaRepository.save(any(Brigada.class))).thenAnswer(inv -> {
-            Brigada b = inv.getArgument(0);
+        when(brigadaRepository.save(any(Brigade.class))).thenAnswer(inv -> {
+            Brigade b = inv.getArgument(0);
             return b;
         });
 
-        BrigadaDTO resultado = brigadaService.actualizarEstado(1L, request);
+        BrigadeDTO resultado = brigadaService.actualizarEstado(1L, request);
 
         assertThat(resultado.estado()).isEqualTo("EN_CAMINO");
     }
@@ -141,11 +141,11 @@ class BrigadaServiceTest {
     @Test
     @DisplayName("actualizarUbicacion - debería actualizar coordenadas correctamente")
     void actualizarUbicacion_exitoso() {
-        UpdateUbicacionRequest request = new UpdateUbicacionRequest(-34.0, -71.0);
+        UpdateLocationRequest request = new UpdateLocationRequest(-34.0, -71.0);
         when(brigadaRepository.findById(1L)).thenReturn(Optional.of(brigadaEjemplo));
-        when(brigadaRepository.save(any(Brigada.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(brigadaRepository.save(any(Brigade.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        BrigadaDTO resultado = brigadaService.actualizarUbicacion(1L, request);
+        BrigadeDTO resultado = brigadaService.actualizarUbicacion(1L, request);
 
         assertThat(resultado.latitud()).isEqualTo(-34.0);
         assertThat(resultado.longitud()).isEqualTo(-71.0);

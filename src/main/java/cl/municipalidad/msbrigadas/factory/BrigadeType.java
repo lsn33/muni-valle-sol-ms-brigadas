@@ -4,7 +4,7 @@ package cl.municipalidad.msbrigadas.factory;
  * Enumeración de tipos de brigada disponibles en el sistema municipal.
  *
  * <p>Define las especialidades de brigada reconocidas por el sistema.
- * Usado por {@link BrigadaFactory} para aplicar el patrón Factory Method
+ * Usado por {@link BrigadeFactory} para aplicar el patrón Factory Method
  * y asignar automáticamente el estado inicial según el tipo.</p>
  *
  * <p><b>Patrón aplicado:</b> Factory Method — BrigadaFactory usa este enum
@@ -18,9 +18,9 @@ package cl.municipalidad.msbrigadas.factory;
  *
  * @author Municipalidad Valle del Sol
  * @version 1.0
- * @see BrigadaFactory
+ * @see BrigadeFactory
  */
-public enum BrigadaType {
+public enum BrigadeType {
     INCENDIO,
     RESCATE,
     MEDICA
